@@ -123,5 +123,13 @@ primitive CLI
           [
             ArgSpec.string_seq("args", "Arguments to run.")
           ])?
+        CommandSpec.leaf(
+          "exec",
+          "Execvp the shell command inside an environment with the corral on"
+            + " the PONYPATH.",
+          Array[OptionSpec](),
+          [
+            ArgSpec.string_seq("args", "Arguments to run.")
+          ])?
       ])?
       .> add_help()?
