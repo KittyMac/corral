@@ -48,19 +48,23 @@ class CmdRun is CmdType
       // if we use the exec option, replace this process with the run command
       // allows for use of things like corral run -- lldb ponyc
       if exec then
-        let cargs = Array[Pointer[U8] tag](32)
-        for a in args.values() do
-          cargs.push(a.cstring())
+        ifdef not windows then
+          let cargs = Array[Pointer[U8] tag](32)
+          for a in args.values() do
+            cargs.push(a.cstring())
+          end
+          cargs.push(Pointer[U8])
+    
+          let cvars = Array[Pointer[U8] tag](32)
+          for a in vars.values() do
+            cvars.push(a.cstring())
+          end
+          cvars.push(Pointer[U8])
+            
+          @execve[I32](prog.path.path.cstring(), cargs.cpointer(), cvars.cpointer())
+        else
+          ctx.uout.err("exec: this command not supported on windows, switching to use run")
         end
-        cargs.push(Pointer[U8])
-        
-        let cvars = Array[Pointer[U8] tag](32)
-        for a in vars.values() do
-          cvars.push(a.cstring())
-        end
-        cvars.push(Pointer[U8])
-                
-        @execve[I32](prog.path.path.cstring(), cargs.cpointer(), cvars.cpointer())
       end
       
       let a = Action(prog, recover args.slice(1) end, vars)
