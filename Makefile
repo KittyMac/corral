@@ -17,9 +17,9 @@ ifdef config
 endif
 
 ifeq ($(config),release)
-	PONYC = ponyc
+	PONYC = ponyc --allow-unused-vars
 else
-	PONYC = ponyc --debug
+	PONYC = ponyc --allow-unused-vars --debug
 endif
 
 ifneq ($(arch),)
