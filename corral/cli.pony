@@ -125,8 +125,7 @@ primitive CLI
           ])?
         CommandSpec.leaf(
           "exec",
-          "Execvp the shell command inside an environment with the corral on"
-            + " the PONYPATH.",
+          "For executing shell commands which require user interaction",
           Array[OptionSpec](),
           [
             ArgSpec.string_seq("args", "Arguments to run.")
