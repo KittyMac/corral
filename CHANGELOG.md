@@ -9,10 +9,19 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
-- Add macOS releases via Homebrew ([PR #74](https://github.com/ponylang/corral/pull/74))
 
 ### Changed
 
+
+## [0.3.1] - 2020-02-12
+
+### Fixed
+
+- Pass exit codes from Runners to early exit corral with same code ([PR #80](https://github.com/ponylang/corral/pull/80))
+
+### Added
+
+- Add macOS releases via Homebrew ([PR #74](https://github.com/ponylang/corral/pull/74))
 
 ## [0.3.0] - 2019-12-21
 
