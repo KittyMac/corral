@@ -44,11 +44,14 @@ class CmdRun is CmdType
         end
       let a = Action(prog, recover args.slice(1) end, vars)
       if not ctx.nothing then
-        Runner.run(a, {(result: ActionResult) => 
+        Runner.runFinal(a, {(result: ActionResult) => 
           result.print_to(ctx.env.out)
-          if result.exit_code != 0 then
-            ctx.env.exitcode(result.exit_code)
-          end
+          ctx.env.exitcode(result.exit_code)
+          
+          // This is ugly and I don't like it, but
+          // without it we just hang. Maybe someone
+          // else will have a better idea.
+          @exit[None](result.exit_code)
         })
       end
     else

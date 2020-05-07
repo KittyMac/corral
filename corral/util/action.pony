@@ -99,7 +99,7 @@ primitive Runner
   Run an Action using ProcessMonitor, and pass the resulting ActionResult to a
   given lambda.
   """
-  fun run(action: Action, result: {(ActionResult)} iso) =>
+  fun _run(action: Action, pipeStdin:Bool, pipeStdout:Bool, pipeStderr:Bool, result: {(ActionResult)} iso) =>
     let c = _Collector(consume result)
     let argv: Array[String] iso = recover argv.create(action.args.size()+1) end
     let appname =
@@ -119,7 +119,17 @@ primitive Runner
       action.prog.auth,
       consume c,
       action.prog.path, consume argv,
-      action.vars).done_writing()
+      action.vars,
+      None,
+      pipeStdin,
+      pipeStdout,
+      pipeStderr).done_writing()
+  
+  fun run(action: Action, result: {(ActionResult)} iso) =>
+    _run(action, true, true, true, consume result)
+  
+  fun runFinal(action: Action, result: {(ActionResult)} iso) =>
+    _run(action, false, false, false, consume result)
 
 class _Collector is ProcessNotify
   """
